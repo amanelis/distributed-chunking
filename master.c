@@ -11,6 +11,8 @@ double getValue(int expSize, int fracSize, unsigned long long bits);
 double singlePrecision(unsigned long long num);
 void *testRange(void *p);
 
+static int const array_index_threshold = 1;
+
 struct message {
     unsigned long long start;
     unsigned long long end;
@@ -28,11 +30,11 @@ int main (int argc, char *argv[]) {
     int nodes = atoi(argv[3]);
     int i;
     unsigned long long temp, chunk, start, end;
-    
+
     // This two dimensional array holds the value[index] with 2 options
     // Option 1: [index][start], could also be most current starting point
     // Option 2: [index][end], end point or could also mean, left off location
-    unsigned long long value[nodes][2];
+    unsigned long long value[nodes + array_index_threshold][2 + array_index_threshold];
 
     struct message *p;
     if((p = (struct message *) malloc (sizeof(struct message))) == NULL) {
@@ -60,5 +62,3 @@ int main (int argc, char *argv[]) {
     }
     return 0;
 }
-
-
