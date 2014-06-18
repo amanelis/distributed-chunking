@@ -23,18 +23,15 @@ int main (int argc, char *argv[]) {
   if(argc != 4) {
     fprintf(stderr, "---> USAGE: ./executable [start] [end] [number of nodes to assign chunk]\n");
     exit(-1);
+  } else {
+    printf("Start = %s, End = %s\n", argv[1], argv[2]);
   }
-
-  printf("Start = %s, End = %s\n", argv[1], argv[2]);
-
-  int nodes = atoi(argv[3]);
-  int i;
-  unsigned long long temp, chunk, start, end;
 
   // This two dimensional array holds the value[index] with 2 options
   // Option 1: [index][start], could also be most current starting point
   // Option 2: [index][end], end point or could also mean, left off location
-  unsigned long long value[nodes + array_index_threshold][2 + array_index_threshold];
+  int nodes = atoi(argv[3]);
+  unsigned long long value[nodes][2];
 
   struct message *p;
   if((p = (struct message *) malloc (sizeof(struct message))) == NULL) {
@@ -43,11 +40,13 @@ int main (int argc, char *argv[]) {
   }
 
   /* Setup variables, and get ready to divide by number of children */
+  unsigned long long start, end, temp, chunk;
   start = atoll(argv[1]);
   end = atoll(argv[2]);
   temp = 0;
   chunk = (end / nodes);
 
+  int i;
   for(i = 1; i <= nodes; i++) {
     if(i == 1) { /*This should be first element in the array*/
         value[i][1] = start;
